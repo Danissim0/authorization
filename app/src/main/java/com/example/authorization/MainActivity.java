@@ -3,6 +3,7 @@ package com.example.authorization;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -39,27 +40,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             answer.setTextColor(Color.GREEN);
             answer.setText("Верно");
             answer.setVisibility(View.VISIBLE);
-        } else if (input_login.equals(user_login)) {
-            login.setTextColor(Color.GREEN);
-            password.setTextColor(Color.RED);
-            authorization.setBackgroundColor(Color.RED);
-            answer.setTextColor(Color.RED);
-            answer.setText("Неверный пароль");
-            answer.setVisibility(View.VISIBLE);
-        } else if (input_password.equals(user_password)) {
-            login.setTextColor(Color.RED);
-            password.setTextColor(Color.GREEN);
-            authorization.setBackgroundColor(Color.RED);
-            answer.setTextColor(Color.GREEN);
-            answer.setText("Неверный логин");
-            answer.setVisibility(View.VISIBLE);
         } else {
-            login.setTextColor(Color.RED);
-            authorization.setBackgroundColor(Color.RED);
-            password.setTextColor(Color.RED);
+            Intent i;
+            i = new Intent(MainActivity.this, registration.class);
+            startActivityForResult(i, 1);
             answer.setTextColor(Color.RED);
-            answer.setText("Неверный логин и пароль");
+            answer.setText("Ошибка");
             answer.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case RESULT_OK:
+                answer.setText(data.getStringExtra("login"));
+                answer.setTextColor(Color.BLACK);
+                break;
         }
     }
 }
